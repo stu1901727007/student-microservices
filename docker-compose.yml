@@ -1,0 +1,150 @@
+version: '3'
+services:
+
+##########################################
+#   Consul - Discovery service           #
+##########################################
+
+  #Consul
+  ss_consul_node1:
+    image: consul:latest
+    container_name: ss_consul_node1
+    restart: always
+    tty: true
+    ports:
+      - "8500:8500"
+    volumes:
+      - ss_consul_data:/consul/data
+#    networks:
+#      - ss-consul-network
+
+##########################################
+#   MYSQL Services                       #
+##########################################
+
+  #Manager - Mysql Databases
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8282:8080
+#    networks:
+#      - ss-public-network
+#      - ss-application-network
+#      - ss-billing-network
+#      - ss-bo-network
+#      - ss-profile-network
+
+  #MySQL Service - BO
+  ss_bo_db:
+    image: mysql:5.7
+    container_name: ss_bo_db
+    restart: always
+    tty: true
+    ports:
+      - "33060:3306"
+    environment:
+      MYSQL_DATABASE: applications
+      MYSQL_USER: applications
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: password
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ss_db_bo_data:/var/lib/mysql/
+#    networks:
+#      - ss-bo-network
+
+  #MySQL Service - Applications
+  ss_applications_db:
+    image: mysql:5.7
+    container_name: ss_applications_db
+    restart: always
+    tty: true
+    ports:
+      - "33061:3306"
+    environment:
+      MYSQL_DATABASE: applications
+      MYSQL_USER: applications
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: password
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ss_db_application_data:/var/lib/mysql/
+#    networks:
+#      - ss-application-network
+
+  #MySQL Service - Profiles
+  ss_profiles_db:
+    image: mysql:5.7
+    container_name: ss_profiles_db
+    restart: always
+    tty: true
+    ports:
+      - "33062:3306"
+    environment:
+      MYSQL_DATABASE: profiles
+      MYSQL_USER: profiles
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: password
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ss_db_profile_data:/var/lib/mysql/
+#    networks:
+#      - ss-profile-network
+
+
+  #MySQL Service - Billing
+  ss_billing_db:
+    image: mysql:5.7
+    container_name: ss_billing_db
+    restart: always
+    tty: true
+    ports:
+      - "33063:3306"
+    environment:
+      MYSQL_DATABASE: billing
+      MYSQL_USER: billing
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: password
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ss_db_billing_data:/var/lib/mysql/
+#    networks:
+#      - ss-billing-network
+
+#Docker Networks
+#networks:
+#  ss-public-network:
+#    driver: bridge
+#  ss-consul-network:
+#    driver: bridge
+#  ss-bo-network:
+#    driver: bridge
+#  ss-application-network:
+#    driver: bridge
+#  ss-profile-network:
+#    driver: bridge
+#  ss-billing-network:
+#    driver: bridge
+
+##########################################
+#   MYSQL Services                       #
+##########################################
+
+#Volumes
+volumes:
+  ss_consul_data:
+    driver: local
+  ss_db_bo_data:
+    driver: local
+  ss_db_application_data:
+    driver: local
+  ss_db_profile_data:
+    driver: local
+  ss_db_billing_data:
+    driver: local
