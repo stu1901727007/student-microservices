@@ -1,0 +1,38 @@
+spring:  
+  application:
+    name: profile-service
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:33062/profiles
+    username: profiles
+    password: secret
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG 
+    
+---
+spring:
+  profiles: zone1
+  cloud:
+    consul:
+      discovery:
+        instanceZone: zone1
+
+#---
+#spring:
+#  profiles: zone2
+#  cloud:
+#    consul:
+#      discovery:
+#        instanceZone: zone2

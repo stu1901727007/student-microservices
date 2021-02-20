@@ -1,0 +1,39 @@
+spring:  
+  application:
+    name: billing-service
+
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:33063/billing
+    username:
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+  pattern:
+#    console: "%d{HH:mm:ss.SSS} %-5level %msg%n"
+    file: "%d{HH:mm:ss.SSS} %-5level %msg%n"
+
+  file:
+    name: logs/order.log
+#---
+#spring:
+#  profiles: zone1
+#  cloud:
+#    consul:
+#      discovery:
+#        instanceZone: zone1
+
+#---
+#spring:
+#  profiles: zone2
+#  cloud:
+#    consul:
+#      discovery:
+#        instanceZone: zone2
