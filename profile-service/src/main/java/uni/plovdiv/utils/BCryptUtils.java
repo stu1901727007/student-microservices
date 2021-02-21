@@ -1,0 +1,30 @@
+package uni.plovdiv.utils;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class BCryptUtils {
+
+    private static BCryptPasswordEncoder passwordEcorder = new BCryptPasswordEncoder(12);
+
+    /**
+     *
+     * @param plainText
+     * @return
+     */
+    public String bcryptEncryptor(String plainText) {
+        return passwordEcorder.encode(plainText);
+    }
+
+    /**
+     *
+     * @param rawPassword
+     * @param encodedPassword
+     * @return
+     */
+    public Boolean doPasswordsMatch(String rawPassword,String encodedPassword) {
+        return passwordEcorder.matches(rawPassword, encodedPassword);
+    }
+
+}

@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Table(name = "applications")
 public class Application implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -31,6 +32,7 @@ public class Application implements Serializable {
     @Column(name = "status")
     private Byte status;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
     private Byte paymentMethod;
 

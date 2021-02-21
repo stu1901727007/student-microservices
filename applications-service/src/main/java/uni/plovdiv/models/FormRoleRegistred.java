@@ -13,11 +13,10 @@ import java.io.Serializable;
 @Entity
 @Table(name = "form_role_registred")
 public class FormRoleRegistred implements Serializable {
-    @Id
+
     @Column(name = "forms_id")
     private Long formsId;
 
-    @Id
     @Column(name = "roles_registered_id")
     private Long rolesRegisteredId;
 }

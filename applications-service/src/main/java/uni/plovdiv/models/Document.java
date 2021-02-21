@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Table(name = "documents")
 public class Document implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

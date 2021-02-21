@@ -3,6 +3,7 @@ package uni.plovdiv.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,26 +11,28 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
+@Accessors(chain = true)
 @Entity
 @Table(name = "roles")
 public class Role implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @Column(name = "display_name")
+    @Column
     private String displayName;
 
-    @Column(name = "description")
+    @Column
     private String description;
 
-    @Column(name = "created_at")
+    @Column
     private java.sql.Timestamp createdAt;
 
-    @Column(name = "updated_at")
+    @Column
     private java.sql.Timestamp updatedAt;
 
 }

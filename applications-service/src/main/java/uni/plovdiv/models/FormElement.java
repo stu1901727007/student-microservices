@@ -14,10 +14,10 @@ import java.io.Serializable;
 @Table(name = "form_elements")
 public class FormElement implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "forms_id")
     private Long formsId;
 
-    @Id
     @Column(name = "form_builder_elements_id")
     private Long formBuilderElementsId;
 

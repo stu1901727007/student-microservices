@@ -1,4 +1,4 @@
-package uni.plovdiv.services.order.model;
+package uni.plovdiv.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Table(name = "taxes")
 public class Taxes implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

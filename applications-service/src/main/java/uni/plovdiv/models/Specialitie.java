@@ -14,10 +14,10 @@ import java.io.Serializable;
 @Table(name = "specialities")
 public class Specialitie implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Id
     @Column(name = "faculties_id")
     private Long facultiesId;
 

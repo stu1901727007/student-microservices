@@ -1,5 +1,6 @@
-package uni.plovdiv.models;
+package uni.plovdiv.requests;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,17 +12,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Accessors(chain = true)
-@Entity
-@Table(name = "registered")
-public class Registered implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Registered {
 
     @Column(nullable = false)
     @Size(max = 50)
@@ -35,7 +28,7 @@ public class Registered implements Serializable {
     @Size(max = 50)
     private String lastName;
 
-    @Column(name = "pin") // or pif
+    @Column(name = "pin") //or pif
     @Size(max = 10)
     private String pin;
 

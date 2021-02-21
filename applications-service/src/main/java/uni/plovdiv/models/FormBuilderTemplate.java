@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Table(name = "form_builder_templates")
 public class FormBuilderTemplate implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

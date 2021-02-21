@@ -12,7 +12,7 @@ spring:
           predicates:
             - Path=/profile/**
           filters:
-            - RewritePath=/account/(?<path>.*), /$\{path}
+            - RewritePath=/profile/(?<path>.*), /$\{path}
         - id: billing-service
           uri: lb://billing-service
           predicates:

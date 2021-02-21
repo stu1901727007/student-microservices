@@ -1,4 +1,4 @@
-package uni.plovdiv.services.order.model;
+package uni.plovdiv.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,21 +11,32 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "transactions")
-public class Transactions implements Serializable {
+@Table(name = "orders")
+public class Orders implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Id
-    @Column(name = "orders_id")
-    private Long ordersId;
 
-    @Column(name = "amount")
-    private Double amount;
+    @Column(name = "applications_id")
+    private Long applicationsId;
+
+
+    @Column(name = "applications_registered_id")
+    private Long applicationsRegisteredId;
+
+    @Column(name = "uuid")
+    private String uuid;
+
+    @Column(name = "total")
+    private Double total;
 
     @Column(name = "status")
     private Byte status;
+
+    @Column(name = "payment_method")
+    private Byte paymentMethod;
 
     @Column(name = "active")
     private Byte active;
@@ -38,5 +49,4 @@ public class Transactions implements Serializable {
 
     @Column(name = "deleted_at")
     private java.sql.Timestamp deletedAt;
-
 }
