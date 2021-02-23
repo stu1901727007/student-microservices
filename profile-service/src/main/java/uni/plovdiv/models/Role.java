@@ -4,9 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -30,9 +35,11 @@ public class Role implements Serializable {
     private String description;
 
     @Column
-    private java.sql.Timestamp createdAt;
+    @CreationTimestamp
+    private Date createdAt;
 
     @Column
-    private java.sql.Timestamp updatedAt;
+    @UpdateTimestamp
+    private Date updatedAt;
 
 }

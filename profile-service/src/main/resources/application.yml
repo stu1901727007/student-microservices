@@ -17,17 +17,13 @@ spring:
     generate-ddl: true
     show-sql: true
 
-logging:
-  level:
-    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG 
-    
----
-spring:
-  profiles: zone1
-  cloud:
-    consul:
-      discovery:
-        instanceZone: zone1
+#---
+#spring:
+#  profiles: zone1
+#  cloud:
+#    consul:
+#      discovery:
+#        instanceZone: zone1
 
 #---
 #spring:

@@ -12,16 +12,16 @@ logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 
-#server.port: 0
-server.port: 8181
+server.port: 0
+#server.port: 8181
 
----
-spring:
-  profiles: zone1
-  cloud:
-    consul:
-      discovery:
-        instanceZone: zone1
+#---
+#spring:
+#  profiles: zone1
+#  cloud:
+#    consul:
+#      discovery:
+#        instanceZone: zone1
 
 #---
 #spring:

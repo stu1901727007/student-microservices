@@ -5,23 +5,19 @@ spring:
     consul:
       host: 127.0.0.1
       port: 8500
-      
-logging:
-  level:
-    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
-    
----
-spring:
-  profiles: zone1
-  cloud:
-    consul:
-      discovery:
-        instanceZone: zone1
-        register: false
-        registerHealthCheck: false
-        tags: zone=zone1
-server:  
-  port: ${PORT:8080}
+
+#---
+#spring:
+#  profiles: zone1
+#  cloud:
+#    consul:
+#      discovery:
+#        instanceZone: zone1
+#        register: false
+#        registerHealthCheck: false
+#        tags: zone=zone1
+
+server.port: ${PORT:8181}
 
 #---
 #spring:

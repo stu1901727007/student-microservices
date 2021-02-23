@@ -1,20 +1,16 @@
-package uni.plovdiv.requests;
+package uni.plovdiv.dto.requests;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 @Data
 @Accessors(chain = true)
-public class Registered {
+public class RegisteredDto {
 
     @Column(nullable = false)
     @Size(max = 50)

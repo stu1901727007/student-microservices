@@ -4,10 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import uni.plovdiv.models.interfaces.SoftDelete;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -15,7 +20,7 @@ import java.util.Collection;
 @Accessors(chain = true)
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements Serializable, SoftDelete {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -40,13 +45,15 @@ public class User implements Serializable {
     private String rememberToken;
 
     @Column(name = "deleted_at")
-    private java.sql.Timestamp deletedAt;
+    private Date deletedAt;
 
     @Column(name = "created_at")
-    private java.sql.Timestamp createdAt;
+    @CreationTimestamp
+    private Date createdAt;
 
     @Column(name = "updated_at")
-    private java.sql.Timestamp updatedAt;
+    @UpdateTimestamp
+    private Date updatedAt;
 
     //@ManyToMany(fetch = FetchType.LAZY)
     @ManyToMany(fetch = FetchType.EAGER)
@@ -59,5 +66,8 @@ public class User implements Serializable {
         return this.firstName != null ? this.firstName.concat(" ").concat(this.lastName) : "";
     }
 
-
+    public User touchDelete() {
+        this.setDeletedAt(new Date());
+        return this;
+    }
 }

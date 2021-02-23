@@ -1,10 +1,8 @@
-package uni.plovdiv.dto;
+package uni.plovdiv.dto.responces;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Setter

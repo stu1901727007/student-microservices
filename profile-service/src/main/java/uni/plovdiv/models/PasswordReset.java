@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -27,7 +30,8 @@ public class PasswordReset implements Serializable {
     @Column(name = "token")
     private String token;
 
+    @CreationTimestamp
     @Column(name = "created_at")
-    private java.sql.Timestamp createdAt;
+    private Date createdAt;
 
 }

@@ -20,8 +20,6 @@ spring:
           filters:
             - RewritePath=/billing/(?<path>.*), /$\{path}
 
-logging.level.com.netflix: DEBUG
-
 management:
   security:
     enabled: false
