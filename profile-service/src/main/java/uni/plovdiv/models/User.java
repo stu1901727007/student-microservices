@@ -1,5 +1,6 @@
 package uni.plovdiv.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import uni.plovdiv.models.enums.UserRoles;
 import uni.plovdiv.models.interfaces.SoftDelete;
 
 import javax.persistence.*;
@@ -18,6 +20,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
+@JsonIgnoreProperties({"password", "deletedAt", "createdAt", "updatedAt"})
 @Entity
 @Table(name = "users")
 public class User implements Serializable, SoftDelete {
@@ -28,6 +31,9 @@ public class User implements Serializable, SoftDelete {
 
     @Column(name = "first_name")
     private String firstName;
+
+    @Enumerated(EnumType.STRING)
+    private UserRoles role;
 
     @Column(name = "last_name")
     private String lastName;
@@ -55,19 +61,8 @@ public class User implements Serializable, SoftDelete {
     @UpdateTimestamp
     private Date updatedAt;
 
-    //@ManyToMany(fetch = FetchType.LAZY)
-    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "role_user",
-//            joinColumns = {@JoinColumn(name = "users_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "role_id")})
-//    private Collection<Role> roles;
 
     public String getFullName() {
         return this.firstName != null ? this.firstName.concat(" ").concat(this.lastName) : "";
-    }
-
-    public User touchDelete() {
-        this.setDeletedAt(new Date());
-        return this;
     }
 }

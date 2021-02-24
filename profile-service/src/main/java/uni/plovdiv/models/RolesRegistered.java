@@ -1,11 +1,14 @@
 package uni.plovdiv.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,6 +20,9 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
+@JsonIgnoreProperties({"deletedAt", "createdAt", "updatedAt"})
+@SQLDelete(sql = "UPDATE roles_registered SET deleted_at=NOW() WHERE id=?")
+@Where(clause = "deleted_at IS NULL")
 @Entity
 @Table(name = "roles_registered")
 public class RolesRegistered implements Serializable {
@@ -42,6 +48,6 @@ public class RolesRegistered implements Serializable {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-
-
+    @Column(name = "deleted_at")
+    private Date deletedAt;
 }

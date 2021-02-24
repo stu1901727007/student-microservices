@@ -2,11 +2,13 @@ package uni.plovdiv.dto.requests;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import uni.plovdiv.models.RolesRegistered;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
 @Data
 @Accessors(chain = true)
@@ -49,13 +51,5 @@ public class RegisteredDto {
     @Column(name = "active")
     private Byte active;
 
-    @Column(name = "deleted_at")
-    private java.sql.Timestamp deletedAt;
-
-    @Column(name = "created_at")
-    private java.sql.Timestamp createdAt;
-
-    @Column(name = "updated_at")
-    private java.sql.Timestamp updatedAt;
-
+    private Collection<RolesRegistered> roles;
 }

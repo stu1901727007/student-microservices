@@ -29,7 +29,6 @@ public class RegisteredController {
     ModelMapper modelMapper = new ModelMapper();
 
     /**
-     *
      * @param registeredRepository
      * @param registeredService
      */
@@ -110,13 +109,18 @@ public class RegisteredController {
 
                 Registered rsRegistered = this.registeredService.signup(signupDto);
 
-                LoggenInRegisteredDto loggenInRegisteredDto = modelMapper.map(rsRegistered, LoggenInRegisteredDto.class);
+                if (rsRegistered != null) {
+                    LoggenInRegisteredDto loggenInRegisteredDto = modelMapper.map(rsRegistered, LoggenInRegisteredDto.class);
 
-                Map<String, Object> data = new HashMap<String, Object>();
-                data.put("user", loggenInRegisteredDto);
+                    Map<String, Object> data = new HashMap<String, Object>();
+                    data.put("user", loggenInRegisteredDto);
 
-                response.setData(data);
-                httpStatus = HttpStatus.OK;
+                    response.setData(data);
+                    httpStatus = HttpStatus.OK;
+                } else {
+                    response.setError("There is a problem with your registration!");
+                    httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+                }
             } else {
                 httpStatus = HttpStatus.BAD_REQUEST;
                 response.setError("Email already used!");
@@ -132,7 +136,12 @@ public class RegisteredController {
         return new ResponseEntity<>(response, httpStatus);
     }
 
-
+    /**
+     * @param registred_id
+     * @param response
+     * @param httpStatus
+     * @return
+     */
     @DeleteMapping("{registred_id}")
     public ResponseEntity<JSONResponseDto> deleteRegistered(
             @PathVariable(value = "registred_id") long registred_id,
@@ -146,11 +155,9 @@ public class RegisteredController {
 
             Registered rsRegistered = registered.get();
 
-            if( this.registeredService.delete(rsRegistered) ) {
+            if (this.registeredService.delete(rsRegistered)) {
                 httpStatus = HttpStatus.OK;
-            }
-            else
-            {
+            } else {
                 httpStatus = HttpStatus.BAD_REQUEST;
                 response.setError("There is a problem!");
             }

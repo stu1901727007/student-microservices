@@ -5,19 +5,31 @@ import org.springframework.stereotype.Component;
 import uni.plovdiv.dto.requests.RegisteredDto;
 import uni.plovdiv.dto.requests.SignupDto;
 import uni.plovdiv.models.Registered;
+import uni.plovdiv.models.RolesRegistered;
 import uni.plovdiv.repository.RegisteredRepository;
+import uni.plovdiv.repository.RoleRegistredRepository;
 import uni.plovdiv.services.interfaces.RegisteredServiceInteface;
 import uni.plovdiv.utils.BCryptUtils;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 @Component
 public class RegisteredService implements RegisteredServiceInteface {
 
     RegisteredRepository registeredRepository;
+    RoleRegistredRepository roleRegistredRepository;
     ModelMapper modelMapper = new ModelMapper();
     BCryptUtils bCryptUtils = new BCryptUtils();
 
-    public RegisteredService(RegisteredRepository registeredRepository) {
+    /**
+     *
+     * @param registeredRepository
+     * @param roleRegistredRepository
+     */
+    public RegisteredService(RegisteredRepository registeredRepository, RoleRegistredRepository roleRegistredRepository) {
         this.registeredRepository = registeredRepository;
+        this.roleRegistredRepository = roleRegistredRepository;
     }
 
     /**
@@ -36,12 +48,20 @@ public class RegisteredService implements RegisteredServiceInteface {
      */
     public Registered signup(SignupDto signupDto) {
 
+        RolesRegistered role = new RolesRegistered();
         Registered registered = new Registered();
-        registered.setFirstName(signupDto.getFirstName());
-        registered.setLastName(signupDto.getLastName());
-        registered.setEmail(signupDto.getEmail());
-        registered.setPassword(bCryptUtils.bcryptEncryptor(signupDto.getPassword()));
-        this.registeredRepository.save(registered);
+
+        Optional<RolesRegistered> rsRole = roleRegistredRepository.findById(1L);
+        if (rsRole.isPresent()) {
+            registered
+                    .setFirstName(signupDto.getFirstName())
+                    .setLastName(signupDto.getLastName())
+                    .setEmail(signupDto.getEmail())
+                    .setPassword(bCryptUtils.bcryptEncryptor(signupDto.getPassword()))
+                    .setRoles(Arrays.asList(rsRole.get()));
+
+            this.registeredRepository.save(registered);
+        }
 
         return registered;
     }
@@ -74,8 +94,7 @@ public class RegisteredService implements RegisteredServiceInteface {
      */
     public Boolean delete(Registered registered) {
 
-        registered.touchDelete();
-        this.registeredRepository.save(registered);
+        this.registeredRepository.delete(registered);
 
         return true;
     }

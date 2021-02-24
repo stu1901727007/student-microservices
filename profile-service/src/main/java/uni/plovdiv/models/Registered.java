@@ -15,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 @Getter
@@ -81,13 +82,11 @@ public class Registered implements Serializable, SoftDelete {
     @UpdateTimestamp
     private Date updatedAt;
 
-    @Override
-    public Registered touchDelete() {
+    //@ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "registred_roles",
+            joinColumns = {@JoinColumn(name = "registered_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_registred_id")})
+    private Collection<RolesRegistered> roles;
 
-        if (this instanceof SoftDelete) {
-            this.setDeletedAt(new Date());
-        }
-
-        return this;
-    }
 }

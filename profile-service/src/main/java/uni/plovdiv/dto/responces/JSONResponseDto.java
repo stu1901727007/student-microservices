@@ -20,7 +20,6 @@ public class JSONResponseDto implements Serializable {
     private Map<String, Object> data;
 
     public JSONResponseDto() {
-        this.errors = new HashMap<String, String>();
     }
 
     public void setStatus(HttpStatus status) {
@@ -29,6 +28,8 @@ public class JSONResponseDto implements Serializable {
     }
 
     public JSONResponseDto prepareErrors(BindingResult bindingResult) throws NullPointerException {
+
+        this.errors = new HashMap<String, String>();
 
         if (bindingResult.hasErrors()) {
             for (FieldError error : bindingResult.getFieldErrors()) {

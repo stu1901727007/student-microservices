@@ -4,5 +4,5 @@ import uni.plovdiv.models.Registered;
 
 public interface SoftDelete {
 
-    Object touchDelete();
+    //Object touchDelete();
 }
