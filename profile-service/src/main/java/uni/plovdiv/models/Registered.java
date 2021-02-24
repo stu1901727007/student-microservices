@@ -1,5 +1,6 @@
 package uni.plovdiv.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -63,6 +64,7 @@ public class Registered implements Serializable, SoftDelete {
     @Column(name = "email_verified_at")
     private Date emailVerifiedAt;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 6, max = 80)

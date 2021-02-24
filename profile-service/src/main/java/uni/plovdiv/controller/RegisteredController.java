@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import uni.plovdiv.dto.requests.RegisteredDto;
 import uni.plovdiv.dto.requests.SignupDto;
 import uni.plovdiv.dto.responces.JSONResponseDto;
 import uni.plovdiv.dto.responces.LoggenInRegisteredDto;
@@ -29,6 +30,8 @@ public class RegisteredController {
     ModelMapper modelMapper = new ModelMapper();
 
     /**
+     * Constructor
+     *
      * @param registeredRepository
      * @param registeredService
      */
@@ -38,6 +41,8 @@ public class RegisteredController {
     }
 
     /**
+     * Login all registered users
+     *
      * @param loginRegisteredDto
      * @param bindingResult
      * @return
@@ -89,6 +94,8 @@ public class RegisteredController {
     }
 
     /**
+     * Signup new users
+     *
      * @param signupDto
      * @param bindingResult
      * @return
@@ -137,13 +144,15 @@ public class RegisteredController {
     }
 
     /**
+     * Delete single registered user
+     *
      * @param registred_id
      * @param response
      * @param httpStatus
      * @return
      */
     @DeleteMapping("{registred_id}")
-    public ResponseEntity<JSONResponseDto> deleteRegistered(
+    public ResponseEntity<JSONResponseDto> delete(
             @PathVariable(value = "registred_id") long registred_id,
             JSONResponseDto response,
             HttpStatus httpStatus
@@ -171,4 +180,97 @@ public class RegisteredController {
     }
 
 
+    @PostMapping
+    public ResponseEntity<JSONResponseDto> create(
+            @Valid RegisteredDto registeredDto,
+            JSONResponseDto response,
+            HttpStatus httpStatus
+    ) {
+
+        Optional<Registered> registered = registeredRepository.findByEmail(registeredDto.getEmail());
+
+        if (registered.isEmpty()) {
+
+            Registered newRegistered = this.registeredService.create(registeredDto);
+
+            if (newRegistered != null) {
+
+                Map<String, Object> data = new HashMap<String, Object>();
+                data.put("user", registeredDto);
+                response.setData(data);
+
+                httpStatus = HttpStatus.OK;
+            } else {
+                httpStatus = HttpStatus.BAD_REQUEST;
+                response.setError("There is a problem!");
+            }
+        } else {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            response.setError("Email already used!");
+        }
+
+        response.setStatus(httpStatus);
+        return new ResponseEntity<>(response, httpStatus);
+    }
+
+
+    @PutMapping("{registred_id}")
+    public ResponseEntity<JSONResponseDto> update(
+            @PathVariable(value = "registred_id") long registred_id,
+            @Valid RegisteredDto registeredDto,
+            JSONResponseDto response,
+            HttpStatus httpStatus
+    ) {
+
+        boolean emailValid = true;
+
+        Optional<Registered> registered = registeredRepository.findById(registred_id);
+
+        if (registered.isPresent()) {
+
+            Registered rsRegistered = registered.get();
+
+            if( rsRegistered.getEmail() != registeredDto.getEmail() )
+            {
+                Optional<Registered> checkEmail = Optional.ofNullable(registeredRepository.findByEmailAndIdIsNot(registeredDto.getEmail(), rsRegistered.getId()));
+
+                if (checkEmail.isEmpty()) {
+                    emailValid = true;
+                }
+                else
+                {
+                    emailValid = false;
+                }
+            }
+
+            if( emailValid )
+            {
+                rsRegistered = this.registeredService.update(registeredDto, registered.get());
+
+                if (rsRegistered != null) {
+
+                    Map<String, Object> data = new HashMap<String, Object>();
+                    data.put("user", registeredDto);
+                    response.setData(data);
+                    httpStatus = HttpStatus.OK;
+
+                } else {
+                    httpStatus = HttpStatus.BAD_REQUEST;
+                    response.setError("There is a problem!");
+                }
+            }
+            else
+            {
+                httpStatus = HttpStatus.BAD_REQUEST;
+                response.setError("Email already used!");
+            }
+
+        } else {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            response.setError("Not found!");
+        }
+
+        response.setStatus(httpStatus);
+        return new ResponseEntity<>(response, httpStatus);
+    }
 }

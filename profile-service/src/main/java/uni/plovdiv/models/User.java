@@ -1,5 +1,6 @@
 package uni.plovdiv.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,6 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-@JsonIgnoreProperties({"password", "deletedAt", "createdAt", "updatedAt"})
 @Entity
 @Table(name = "users")
 public class User implements Serializable, SoftDelete {
@@ -41,6 +41,7 @@ public class User implements Serializable, SoftDelete {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -50,13 +51,16 @@ public class User implements Serializable, SoftDelete {
     @Column(name = "remember_token")
     private String rememberToken;
 
+    @JsonIgnore
     @Column(name = "deleted_at")
     private Date deletedAt;
 
+    @JsonIgnore
     @Column(name = "created_at")
     @CreationTimestamp
     private Date createdAt;
 
+    @JsonIgnore
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Date updatedAt;

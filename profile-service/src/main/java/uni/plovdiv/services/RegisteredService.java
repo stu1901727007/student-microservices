@@ -39,6 +39,7 @@ public class RegisteredService implements RegisteredServiceInteface {
     public Registered create(RegisteredDto registeredDto) {
 
         Registered registered = new Registered();
+
         return _updateRecord(registeredDto, registered);
     }
 
@@ -76,17 +77,6 @@ public class RegisteredService implements RegisteredServiceInteface {
         return _updateRecord(registeredDto, registered);
     }
 
-    /**
-     * @param registeredDto
-     * @param registered
-     * @return
-     */
-    private Registered _updateRecord(RegisteredDto registeredDto, Registered registered) {
-
-        this.registeredRepository.save(registered);
-
-        return registered;
-    }
 
     /**
      * @param registered
@@ -98,4 +88,35 @@ public class RegisteredService implements RegisteredServiceInteface {
 
         return true;
     }
+
+    /**
+     * @param registeredDto
+     * @param registered
+     * @return
+     */
+    private Registered _updateRecord(RegisteredDto registeredDto, Registered registered) {
+
+        Byte active = registeredDto.getActive() == null ? 1 : registeredDto.getActive();
+
+        registered
+                .setFirstName(registeredDto.getFirstName())
+                .setMiddleName(registeredDto.getMiddleName())
+                .setLastName(registeredDto.getLastName())
+                .setEmail(registeredDto.getEmail())
+                .setPin(registeredDto.getPin())
+                .setActive(active);
+
+        if( !bCryptUtils.doPasswordsMatch(registeredDto.getPassword(), registered.getPassword() ) )
+        {
+            registered.setPassword(bCryptUtils.bcryptEncryptor(registeredDto.getPassword()));
+        }
+
+        //.setRoles(Arrays.asList(rsRole.get()));
+
+
+        this.registeredRepository.save(registered);
+
+        return registered;
+    }
+
 }
