@@ -7,7 +7,6 @@ spring:
       port: 8500
       discovery:
         instanceId: ${spring.application.name}:${random.int[1,999999]}
-#        instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.int[1,999999]}"
 
 logging:
   level:

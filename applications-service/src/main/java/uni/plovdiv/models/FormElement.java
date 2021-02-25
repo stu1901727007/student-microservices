@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -25,11 +26,11 @@ public class FormElement implements Serializable {
     private String variables;
 
     @Column(name = "created_at")
-    private java.sql.Timestamp createdAt;
+    private Date createdAt;
 
     @Column(name = "updated_at")
-    private java.sql.Timestamp updatedAt;
+    private Date updatedAt;
 
     @Column(name = "deleted_at")
-    private java.sql.Timestamp deletedAt;
+    private Date deletedAt;
 }

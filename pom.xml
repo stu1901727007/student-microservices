@@ -41,6 +41,7 @@
 		<module>billing-service</module>
 		<module>profile-service</module>
         <module>applications-service</module>
+        <module>test-client</module>
     </modules>
 
 </project>

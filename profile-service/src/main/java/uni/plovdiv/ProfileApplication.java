@@ -32,18 +32,6 @@ public class ProfileApplication {
                 roles.setDisplayName("Candidates");
                 roleRegistredRepository.save(roles);
             }
-
-//			User admin = userRepository.findByEmail("admin@local.com");
-//			if (admin == null) {
-//				admin = new User()
-//						.setEmail("admin@local.com")
-//						.setPassword(bCryptPasswordEncoder.encode("123123"))
-//						.setFirstName("Vitali")
-//						.setLastName("Atias")
-//						.setMobileNumber("111111")
-//						.setRoles(Arrays.asList(adminRole));
-//				userRepository.save(admin);
-//			}
         };
     }
 

@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -31,11 +32,11 @@ public class Taxes implements Serializable {
     private Byte active;
 
     @Column(name = "created_at")
-    private java.sql.Timestamp createdAt;
+    private Date createdAt;
 
     @Column(name = "updated_at")
-    private java.sql.Timestamp updatedAt;
+    private Date updatedAt;
 
     @Column(name = "deleted_at")
-    private java.sql.Timestamp deletedAt;
+    private Date deletedAt;
 }

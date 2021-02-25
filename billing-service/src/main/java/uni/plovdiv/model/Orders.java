@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -18,10 +19,8 @@ public class Orders implements Serializable {
     @Column(name = "id")
     private Long id;
 
-
     @Column(name = "applications_id")
     private Long applicationsId;
-
 
     @Column(name = "applications_registered_id")
     private Long applicationsRegisteredId;
@@ -42,11 +41,11 @@ public class Orders implements Serializable {
     private Byte active;
 
     @Column(name = "created_at")
-    private java.sql.Timestamp createdAt;
+    private Date createdAt;
 
     @Column(name = "updated_at")
-    private java.sql.Timestamp updatedAt;
+    private Date updatedAt;
 
     @Column(name = "deleted_at")
-    private java.sql.Timestamp deletedAt;
+    private Date deletedAt;
 }

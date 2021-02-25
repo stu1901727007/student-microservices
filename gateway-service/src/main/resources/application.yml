@@ -19,6 +19,12 @@ spring:
             - Path=/billing/**
           filters:
             - RewritePath=/billing/(?<path>.*), /$\{path}
+        - id: application-service
+          uri: lb://application-service
+          predicates:
+            - Path=/application/**
+          filters:
+            - RewritePath=/application/(?<path>.*), /$\{path}
 
 management:
   security:

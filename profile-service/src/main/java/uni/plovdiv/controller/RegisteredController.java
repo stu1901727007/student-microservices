@@ -144,6 +144,42 @@ public class RegisteredController {
     }
 
     /**
+     *
+     * @param registred_id
+     * @param response
+     * @param httpStatus
+     * @return
+     */
+    @GetMapping("{registred_id}")
+    public ResponseEntity<JSONResponseDto> select(
+            @PathVariable(value = "registred_id") long registred_id,
+            JSONResponseDto response,
+            HttpStatus httpStatus
+    ) {
+
+        Optional<Registered> registered = registeredRepository.findById(registred_id);
+
+        if (registered.isPresent()) {
+
+            Registered rsRegistered = registered.get();
+            RegisteredDto registeredDto = this.modelMapper.map(rsRegistered, RegisteredDto.class);
+
+            Map<String, Object> data = new HashMap<String, Object>();
+            data.put("user", registeredDto);
+            response.setData(data);
+
+            httpStatus = HttpStatus.OK;
+
+        } else {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            response.setError("Not found!");
+        }
+
+        response.setStatus(httpStatus);
+        return new ResponseEntity<>(response, httpStatus);
+    }
+
+    /**
      * Delete single registered user
      *
      * @param registred_id
@@ -179,7 +215,12 @@ public class RegisteredController {
         return new ResponseEntity<>(response, httpStatus);
     }
 
-
+    /**
+     * @param registeredDto
+     * @param response
+     * @param httpStatus
+     * @return
+     */
     @PostMapping
     public ResponseEntity<JSONResponseDto> create(
             @Valid RegisteredDto registeredDto,
@@ -213,7 +254,13 @@ public class RegisteredController {
         return new ResponseEntity<>(response, httpStatus);
     }
 
-
+    /**
+     * @param registred_id
+     * @param registeredDto
+     * @param response
+     * @param httpStatus
+     * @return
+     */
     @PutMapping("{registred_id}")
     public ResponseEntity<JSONResponseDto> update(
             @PathVariable(value = "registred_id") long registred_id,
@@ -230,21 +277,17 @@ public class RegisteredController {
 
             Registered rsRegistered = registered.get();
 
-            if( rsRegistered.getEmail() != registeredDto.getEmail() )
-            {
+            if (rsRegistered.getEmail() != registeredDto.getEmail()) {
                 Optional<Registered> checkEmail = Optional.ofNullable(registeredRepository.findByEmailAndIdIsNot(registeredDto.getEmail(), rsRegistered.getId()));
 
                 if (checkEmail.isEmpty()) {
                     emailValid = true;
-                }
-                else
-                {
+                } else {
                     emailValid = false;
                 }
             }
 
-            if( emailValid )
-            {
+            if (emailValid) {
                 rsRegistered = this.registeredService.update(registeredDto, registered.get());
 
                 if (rsRegistered != null) {
@@ -258,9 +301,7 @@ public class RegisteredController {
                     httpStatus = HttpStatus.BAD_REQUEST;
                     response.setError("There is a problem!");
                 }
-            }
-            else
-            {
+            } else {
                 httpStatus = HttpStatus.BAD_REQUEST;
                 response.setError("Email already used!");
             }
