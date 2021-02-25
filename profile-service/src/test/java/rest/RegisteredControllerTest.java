@@ -79,13 +79,9 @@ public class RegisteredControllerTest {
                 System.out.println(i + " is empty");
             }
 
-
             //Object[] objects = responseEntity.getBody();
             //System.out.println(uri);
             //template.postForObject("http://localhost:8181/profile/v1/registred/signup", signupDto, SignupDto.class);
-//            if (order.getStatus() != OrderStatus.REJECTED) {
-//                template.put("http://localhost:8090/{id}", null, order.getId());
-//            }
         } catch (Exception e) {
             System.out.println(i + " is empty");
         }

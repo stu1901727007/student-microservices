@@ -8,25 +8,5 @@ Start all containser
 $ docker-composer up -d
 ```
 
-
-####Gateway-service
-http://localhost:8181/
-
-routes:
-    
-    - id: profile-service
-          uri: lb://profile-service
-          predicates:
-            - Path=/profile/**
-          filters:
-            - RewritePath=/profile/(?<path>.*), /$\{path}
-    - id: billing-service
-          uri: lb://billing-service
-          predicates:
-    - Path=/billing/**
-          filters:
-            - RewritePath=/billing/(?<path>.*), /$\{path}
-
-
-####Profile service
-http://localhost:RANDOM/
+1) Start gateway-service
+2) Start profile-service
