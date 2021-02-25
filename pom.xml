@@ -4,9 +4,10 @@
   <artifactId>students-microservices</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
-  
-  	<properties>
-		<java.version>11</java.version>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<parent>
@@ -41,7 +42,6 @@
 		<module>billing-service</module>
 		<module>profile-service</module>
         <module>applications-service</module>
-        <module>test-client</module>
     </modules>
 
 </project>
