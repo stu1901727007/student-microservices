@@ -19,6 +19,8 @@ https://spring.io/guides/gs/maven/
 https://spring.io/guides/gs/spring-boot-docker/
 
 
-docker build -t stu1901727007/uniplovdiv:profile .
+docker build -t stu1901727007/uniplovdiv:profile --build-arg JAR_FILE=profile-service/target/\*.jar .
 
-docker run -p 8383:8383 stu1901727007/uniplovdiv:gateway
+docker build -t stu1901727007/uniplovdiv:gateway --build-arg JAR_FILE=gateway-service/target/\*.jar --build-arg SERVER_PORT=8181 .
+docker run -p 8181:8181 stu1901727007/uniplovdiv:gateway
+

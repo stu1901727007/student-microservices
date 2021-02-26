@@ -3,8 +3,8 @@ spring:
     name: gateway-service
   cloud:
     consul:
-      host: 127.0.0.1
-      port: 8500
+      host: ${CONSUL_SERVER:127.0.0.1}
+      port: ${CONSUL_PORT:8500}
 
 #---
 #spring:
@@ -17,7 +17,7 @@ spring:
 #        registerHealthCheck: false
 #        tags: zone=zone1
 
-server.port: ${PORT:8383}
+server.port: ${SERVER_PORT:8383}
 
 #---
 #spring:

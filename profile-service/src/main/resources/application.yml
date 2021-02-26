@@ -3,12 +3,12 @@ spring:
     name: profile-service
   cloud:
     consul:
-      host: 127.0.0.1
-      port: 8500
+      host: ${CONSUL_SERVER:127.0.0.1}
+      port: ${CONSUL_PORT:8500}
 
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:33062/profiles
+    url: jdbc:mysql://${MYSQL_SERVER:localhost}:${MYSQL_PORT:33062}/profiles
     username: profiles
     password: secret
   jpa:

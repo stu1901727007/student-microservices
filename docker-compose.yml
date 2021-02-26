@@ -117,6 +117,41 @@ services:
 #    networks:
 #      - ss-billing-network
 
+##########################################
+#     Services                           #
+##########################################
+
+  #Gateway service
+  ss_gateway:
+    image: stu1901727007/uniplovdiv:gateway
+    container_name: ss_gateway
+    restart: always
+    tty: true
+    ports:
+      - "8181:8181"
+    environment:
+      CONSUL_SERVER: ss_consul_node1
+      SERVER_PORT: 8181
+    depends_on:
+      - ss_consul_node1
+
+  #Gateway service
+  ss_profile:
+    image: stu1901727007/uniplovdiv:profile
+    container_name: ss_profile
+    restart: always
+    tty: true
+#    ports:
+#      - "0:8181"
+    environment:
+      CONSUL_SERVER: ss_consul_node1
+      MYSQL_SERVER: ss_profiles_db
+      MYSQL_PORT: 3306
+    depends_on:
+      - ss_consul_node1
+      - ss_profiles_db
+      - ss_gateway
+
 #Docker Networks
 #networks:
 #  ss-public-network:

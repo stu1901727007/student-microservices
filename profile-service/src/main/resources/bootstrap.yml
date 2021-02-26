@@ -3,8 +3,8 @@ spring:
     name: profile-service
   cloud:
     consul:
-      host: 127.0.0.1
-      port: 8500
+      host: ${CONSUL_SERVER:127.0.0.1}
+      port: ${CONSUL_PORT:8500}
       discovery:
         instanceId: ${spring.application.name}:${random.int[1,999999]}
 
