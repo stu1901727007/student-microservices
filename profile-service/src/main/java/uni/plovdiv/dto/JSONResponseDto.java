@@ -1,4 +1,4 @@
-package uni.plovdiv.dto.responces;
+package uni.plovdiv.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +15,8 @@ import java.util.Map;
 public class JSONResponseDto implements Serializable {
     private int code;
     private HttpStatus status;
-    private String error;
-    private Map<String, String> errors;
+//    private String error;
+//    private Map<String, String> errors;
     private Map<String, Object> data;
 
     public JSONResponseDto() {
@@ -27,17 +27,17 @@ public class JSONResponseDto implements Serializable {
         this.status = status;
     }
 
-    public JSONResponseDto prepareErrors(BindingResult bindingResult) throws NullPointerException {
-
-        this.errors = new HashMap<String, String>();
-
-        if (bindingResult.hasErrors()) {
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                this.errors.put(error.getField(), error.getDefaultMessage());
-            }
-        }
-
-        return this;
-    }
+//    public JSONResponseDto prepareErrors(BindingResult bindingResult) throws NullPointerException {
+//
+//        this.errors = new HashMap<String, String>();
+//
+//        if (bindingResult.hasErrors()) {
+//            for (FieldError error : bindingResult.getFieldErrors()) {
+//                this.errors.put(error.getField(), error.getDefaultMessage());
+//            }
+//        }
+//
+//        return this;
+//    }
 }
 

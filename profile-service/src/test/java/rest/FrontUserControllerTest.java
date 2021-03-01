@@ -10,13 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import uni.plovdiv.dto.responces.RegisteredDto;
+import uni.plovdiv.dto.FrontUserDto;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class RegisteredControllerTest {
+public class FrontUserControllerTest {
 
     RestTemplate template = new RestTemplate();
 
@@ -43,9 +43,9 @@ public class RegisteredControllerTest {
             headers.setContentType(MediaType.APPLICATION_JSON);
 
 
-//            SignupDto signupDto = new SignupDto();
+//            FrontUserSignupDto signupDto = new FrontUserSignupDto();
 //            signupDto.setFirstName("Vitali").setLastName("nesim").setEmail("yest@qweqwe.bg").setPassword("123123123");
-            //HttpEntity<SignupDto> requestEntity = new HttpEntity<>(signupDto, headers);
+            //HttpEntity<FrontUserSignupDto> requestEntity = new HttpEntity<>(signupDto, headers);
             //order.setProductIds(Arrays.asList(new Long[] { (long) r.nextInt(10) + 1, (long) r.nextInt(10) + 1 }));
             //URI uri = template.postForLocation("http://localhost:8383/profile/v1/registred/signup",requestEntity);
 
@@ -58,10 +58,10 @@ public class RegisteredControllerTest {
 
                 JsonNode root = mapper.readTree(response.getBody());
                 JsonNode name = root.path("data").path("user");
-                RegisteredDto registeredDto = mapper.convertValue(name, RegisteredDto.class);
+                FrontUserDto frontUserDto = mapper.convertValue(name, FrontUserDto.class);
                 System.out.println("---------------------");
                 //System.out.println(name.get("firstName"));
-                System.out.println(registeredDto.toString() );
+                System.out.println(frontUserDto.toString() );
                 System.out.println("---------------------");
             } else {
                 System.out.println(i + " is empty");
@@ -69,7 +69,7 @@ public class RegisteredControllerTest {
 
             //Object[] objects = responseEntity.getBody();
             //System.out.println(uri);
-            //template.postForObject("http://localhost:8181/profile/v1/registred/signup", signupDto, SignupDto.class);
+            //template.postForObject("http://localhost:8181/profile/v1/registred/signup", signupDto, FrontUserSignupDto.class);
         } catch (Exception e) {
             System.out.println(i + " is empty");
         }

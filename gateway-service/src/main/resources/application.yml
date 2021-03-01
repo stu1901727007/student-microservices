@@ -1,4 +1,6 @@
-spring:  
+spring:
+  main:
+    banner-mode: "off"
   application:
     name: gateway-service
   cloud:
@@ -25,6 +27,13 @@ spring:
             - Path=/application/**
           filters:
             - RewritePath=/application/(?<path>.*), /$\{path}
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.boot.autoconfigure: DEBUG
 
 management:
   security:

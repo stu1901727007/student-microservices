@@ -4,21 +4,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import uni.plovdiv.models.Registered;
+import uni.plovdiv.models.FrontUser;
 
 import java.util.Optional;
 
 
-public interface RegisteredRepository extends JpaRepository<Registered, Long>, JpaSpecificationExecutor<Registered> {
+public interface FrontUserRepository extends JpaRepository<FrontUser, Long>, JpaSpecificationExecutor<FrontUser> {
 
     /**
      * @param pageable
      * @return
      */
-    Page<Registered> findAll(Pageable pageable);
+    Page<FrontUser> findAll(Pageable pageable);
 
-    Optional<Registered> findByEmail(String email);
+    Optional<FrontUser> findByEmail(String email);
 
-    Registered findByEmailAndIdIsNot(String emailAddress, Long id);
+    FrontUser findByEmailAndIdIsNot(String emailAddress, Long id);
 
 }

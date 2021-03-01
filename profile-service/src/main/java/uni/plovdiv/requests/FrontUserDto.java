@@ -1,11 +1,11 @@
-package uni.plovdiv.dto.requests;
+package uni.plovdiv.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import uni.plovdiv.models.RolesRegistered;
+import uni.plovdiv.models.RolesFrontUser;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -13,7 +13,7 @@ import java.util.Collection;
 
 @Data
 @Accessors(chain = true)
-public class RegisteredDto {
+public class FrontUserDto {
 
     @Column(nullable = false)
     @Size(max = 50)
@@ -53,5 +53,5 @@ public class RegisteredDto {
     @Column(name = "active")
     private Byte active;
 
-    private Collection<RolesRegistered> roles;
+    private Collection<RolesFrontUser> roles;
 }

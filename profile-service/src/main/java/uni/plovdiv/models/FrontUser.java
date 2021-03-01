@@ -27,7 +27,7 @@ import java.util.Date;
 @Table(name = "registered")
 @SQLDelete(sql = "UPDATE registered SET deleted_at=NOW() WHERE id=?")
 @Where(clause = "deleted_at IS NULL")
-public class Registered implements Serializable, SoftDelete {
+public class FrontUser implements Serializable, SoftDelete {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -89,6 +89,6 @@ public class Registered implements Serializable, SoftDelete {
     @JoinTable(name = "registred_roles",
             joinColumns = {@JoinColumn(name = "registered_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_registred_id")})
-    private Collection<RolesRegistered> roles;
+    private Collection<RolesFrontUser> roles;
 
 }

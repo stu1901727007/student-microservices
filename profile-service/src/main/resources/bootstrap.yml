@@ -14,19 +14,3 @@ logging:
 
 server.port: 0
 #server.port: 8181
-
-#---
-#spring:
-#  profiles: zone1
-#  cloud:
-#    consul:
-#      discovery:
-#        instanceZone: zone1
-
-#---
-#spring:
-#  profiles: zone2
-#  cloud:
-#    consul:
-#      discovery:
-#        instanceZone: zone2

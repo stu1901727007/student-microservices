@@ -1,10 +1,9 @@
-package uni.plovdiv.dto.requests;
+package uni.plovdiv.requests;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import uni.plovdiv.models.RolesRegistered;
+import uni.plovdiv.models.RolesFrontUser;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -12,7 +11,7 @@ import java.util.Collection;
 
 @Data
 @Accessors(chain = true)
-public class SignupDto {
+public class FrontUserSignupDto {
 
     @NotBlank
     @Size(max = 50)
@@ -31,5 +30,5 @@ public class SignupDto {
     @Size(min=6, max = 80)
     private String password;
 
-    private Collection<RolesRegistered> roles;
+    private Collection<RolesFrontUser> roles;
 }

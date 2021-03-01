@@ -1,15 +1,15 @@
-package uni.plovdiv.dto.responces;
+package uni.plovdiv.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import uni.plovdiv.models.RolesRegistered;
+import uni.plovdiv.models.RolesFrontUser;
 
 import java.io.Serializable;
 import java.util.Collection;
 
 @Setter
 @Getter
-public class LoggenInRegisteredDto implements Serializable {
+public class FrontUserLoggedInDto implements Serializable {
 
     private Long id;
     private String firstName;
@@ -17,5 +17,5 @@ public class LoggenInRegisteredDto implements Serializable {
     private String lastName;
     private String email;
 
-    private Collection<RolesRegistered> roles;
+    private Collection<RolesFrontUser> roles;
 }
