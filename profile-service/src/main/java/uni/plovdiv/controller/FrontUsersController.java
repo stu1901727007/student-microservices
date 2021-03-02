@@ -1,14 +1,19 @@
 package uni.plovdiv.controller;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uni.plovdiv.dto.FrontUserLoggedInDto;
 import uni.plovdiv.dto.JSONResponseDto;
-import uni.plovdiv.controller.exceptions.ValidationException;
 import uni.plovdiv.models.FrontUser;
 import uni.plovdiv.repository.FrontUserRepository;
 import uni.plovdiv.requests.FrontUserDto;
@@ -18,6 +23,7 @@ import uni.plovdiv.services.FrontUsersService;
 import uni.plovdiv.utils.BCryptUtils;
 
 import javax.validation.Valid;
+import javax.validation.Validator;
 import java.util.Optional;
 
 @RestController
@@ -44,30 +50,30 @@ public class FrontUsersController {
      * Login all front users
      *
      * @param loginFrontUserDto
-     * @param bindingResult
      * @return
      */
+
+    ////@RequestBody
     @PostMapping("/login")
     public ResponseEntity<FrontUserLoggedInDto> loginUser(
-            @Valid LoginFrontUserDto loginFrontUserDto,
-            BindingResult bindingResult
-    ) throws ValidationException, ResponseStatusException  {
+            @Valid @ModelAttribute LoginFrontUserDto loginFrontUserDto
+            , BindingResult bindingResult
 
-        if (!bindingResult.hasErrors()) {
+    ) throws ResponseStatusException, BindException {
 
-            FrontUser frontUser = frontUserService.getByEmail(loginFrontUserDto.getEmail());
-
-            if (frontUser != null) {
-
-                if (bCryptUtils.doPasswordsMatch(loginFrontUserDto.getPassword(), frontUser.getPassword())) {
-
-                    FrontUserLoggedInDto frontUserLoggedInDto = modelMapper.map(frontUser, FrontUserLoggedInDto.class);
-                    return new ResponseEntity<FrontUserLoggedInDto>(frontUserLoggedInDto, HttpStatus.OK);
-                }
-            }
+        if (bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
         }
-        else {
-            throw new ValidationException(HttpStatus.BAD_REQUEST, "Please check your credentials");
+
+        FrontUser frontUser = frontUserService.getByEmail(loginFrontUserDto.getEmail());
+
+        if (frontUser != null) {
+
+            if (bCryptUtils.doPasswordsMatch(loginFrontUserDto.getPassword(), frontUser.getPassword())) {
+
+                FrontUserLoggedInDto frontUserLoggedInDto = modelMapper.map(frontUser, FrontUserLoggedInDto.class);
+                return new ResponseEntity<>(frontUserLoggedInDto, HttpStatus.OK);
+            }
         }
 
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");

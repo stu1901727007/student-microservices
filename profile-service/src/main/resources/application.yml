@@ -21,6 +21,10 @@ spring:
 
 server:
   error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_trace_param
+    include-exception: true
     whitelabel:
       enabled: false
 
