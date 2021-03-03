@@ -119,7 +119,7 @@ public class FrontUsersService implements FrontUsersServiceInteface {
      * @return
      */
     @Override
-    public Boolean delete(FrontUser frontUser) {
+    public boolean delete(FrontUser frontUser) {
 
         this.frontUserRepository.delete(frontUser);
 

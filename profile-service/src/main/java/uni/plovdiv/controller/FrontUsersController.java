@@ -1,19 +1,13 @@
 package uni.plovdiv.controller;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uni.plovdiv.dto.FrontUserLoggedInDto;
-import uni.plovdiv.dto.JSONResponseDto;
 import uni.plovdiv.models.FrontUser;
 import uni.plovdiv.repository.FrontUserRepository;
 import uni.plovdiv.requests.FrontUserDto;
@@ -23,12 +17,15 @@ import uni.plovdiv.services.FrontUsersService;
 import uni.plovdiv.utils.BCryptUtils;
 
 import javax.validation.Valid;
-import javax.validation.Validator;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/front-user")
 public class FrontUsersController {
+
+    final static String EMAIL_ALREADY_USED = "Email already used!";
+    final static String NOT_FOUND = "Not found";
+    final static String UNAUTHORIZED = "Unauthorized";
 
     FrontUserRepository frontUserRepository;
     FrontUsersService frontUserService;
@@ -53,11 +50,10 @@ public class FrontUsersController {
      * @return
      */
 
-    ////@RequestBody
     @PostMapping("/login")
     public ResponseEntity<FrontUserLoggedInDto> loginUser(
-            @Valid @ModelAttribute LoginFrontUserDto loginFrontUserDto
-            , BindingResult bindingResult
+            @Valid @ModelAttribute LoginFrontUserDto loginFrontUserDto,
+            BindingResult bindingResult
 
     ) throws ResponseStatusException, BindException {
 
@@ -69,14 +65,14 @@ public class FrontUsersController {
 
         if (frontUser != null) {
 
-            if (bCryptUtils.doPasswordsMatch(loginFrontUserDto.getPassword(), frontUser.getPassword())) {
+            if (Boolean.TRUE.equals(bCryptUtils.doPasswordsMatch(loginFrontUserDto.getPassword(), frontUser.getPassword()))) {
 
                 FrontUserLoggedInDto frontUserLoggedInDto = modelMapper.map(frontUser, FrontUserLoggedInDto.class);
                 return new ResponseEntity<>(frontUserLoggedInDto, HttpStatus.OK);
             }
         }
 
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, UNAUTHORIZED);
     }
 
     /**
@@ -88,29 +84,26 @@ public class FrontUsersController {
      */
     @PostMapping("/signup")
     public ResponseEntity<FrontUserLoggedInDto> loginUser(
-            @Valid FrontUserSignupDto frontUserSignupDto,
+            @Valid @ModelAttribute FrontUserSignupDto frontUserSignupDto,
             BindingResult bindingResult
-    ) throws ResponseStatusException {
+    ) throws ResponseStatusException, BindException {
 
-        if (!bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
+        }
 
-            FrontUser checkUserByEmail = frontUserService.getByEmail(frontUserSignupDto.getEmail());
+        FrontUser checkUserByEmail = frontUserService.getByEmail(frontUserSignupDto.getEmail());
 
-            if (checkUserByEmail == null) {
+        if (checkUserByEmail == null) {
 
-                FrontUser rsFrontUser = this.frontUserService.signup(frontUserSignupDto);
+            FrontUser rsFrontUser = this.frontUserService.signup(frontUserSignupDto);
 
-                if (rsFrontUser != null) {
-                    FrontUserLoggedInDto frontUserLoggedInDto = modelMapper.map(rsFrontUser, FrontUserLoggedInDto.class);
-                    return new ResponseEntity<>(frontUserLoggedInDto, HttpStatus.OK);
-                }
-            } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already used!");
+            if (rsFrontUser != null) {
+                FrontUserLoggedInDto frontUserLoggedInDto = modelMapper.map(rsFrontUser, FrontUserLoggedInDto.class);
+                return new ResponseEntity<>(frontUserLoggedInDto, HttpStatus.CREATED);
             }
-
         } else {
-
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Form data not valid");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, EMAIL_ALREADY_USED);
         }
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is a problem with your registration");
@@ -129,36 +122,31 @@ public class FrontUsersController {
 
         if (frontUser != null) {
             FrontUserDto frontUserDto = this.modelMapper.map(frontUser, FrontUserDto.class);
-
             return new ResponseEntity<>(frontUserDto, HttpStatus.OK);
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found!");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND);
     }
 
     /**
      * Delete single frontUser user
      *
      * @param frontUserId
-     * @param response
      * @return
      */
     @DeleteMapping("{frontUserId}")
-    public ResponseEntity<JSONResponseDto> delete(
-            @PathVariable(value = "frontUserId") long frontUserId,
-            JSONResponseDto response
+    public ResponseEntity<FrontUserDto> delete(
+            @PathVariable(value = "frontUserId") long frontUserId
     ) {
-
         FrontUser frontUser = frontUserService.getById(frontUserId);
 
-        if (frontUser != null) {
+        if (Boolean.TRUE.equals(this.frontUserService.delete(frontUser))) {
 
-            if (this.frontUserService.delete(frontUser)) {
-                return new ResponseEntity<>(null, HttpStatus.OK);
-            }
+            FrontUserDto frontUserDto = this.modelMapper.map(frontUser, FrontUserDto.class);
+            return new ResponseEntity<>(frontUserDto, HttpStatus.OK);
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found!");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND);
     }
 
     /**
@@ -176,12 +164,14 @@ public class FrontUsersController {
 
             FrontUser newFrontUser = this.frontUserService.create(frontUserDto);
 
+            frontUserDto = this.modelMapper.map(newFrontUser, FrontUserDto.class);
+
             if (newFrontUser != null) {
                 return new ResponseEntity<>(frontUserDto, HttpStatus.CREATED);
             }
         } else {
 
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already used!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, EMAIL_ALREADY_USED);
         }
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is a problem to create new record");
@@ -204,7 +194,7 @@ public class FrontUsersController {
 
         if (frontUser != null) {
 
-            if (frontUser.getEmail() != frontUserDto.getEmail()) {
+            if ( !frontUser.getEmail().equals(frontUserDto.getEmail())) {
                 Optional<FrontUser> checkEmail = Optional.ofNullable(frontUserRepository.findByEmailAndIdIsNot(frontUserDto.getEmail(), frontUser.getId()));
 
                 if (!checkEmail.isPresent()) {
@@ -221,10 +211,10 @@ public class FrontUsersController {
                     return new ResponseEntity<>(frontUserDto, HttpStatus.OK);
                 }
             } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already used!");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, EMAIL_ALREADY_USED);
             }
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND);
         }
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is a problem to create new record");

@@ -24,8 +24,8 @@ import java.util.Date;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Entity
-@Table(name = "registered")
-@SQLDelete(sql = "UPDATE registered SET deleted_at=NOW() WHERE id=?")
+@Table(name = "front_users")
+@SQLDelete(sql = "UPDATE front_users SET deleted_at=NOW() WHERE id=?")
 @Where(clause = "deleted_at IS NULL")
 public class FrontUser implements Serializable, SoftDelete {
     @Id
@@ -84,11 +84,11 @@ public class FrontUser implements Serializable, SoftDelete {
     @UpdateTimestamp
     private Date updatedAt;
 
-    //@ManyToMany(fetch = FetchType.LAZY)
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "registred_roles",
-            joinColumns = {@JoinColumn(name = "registered_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_registred_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    //@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "front_user_roles",
+            joinColumns = {@JoinColumn(name = "front_user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_front_user_id")})
     private Collection<RolesFrontUser> roles;
 
 }

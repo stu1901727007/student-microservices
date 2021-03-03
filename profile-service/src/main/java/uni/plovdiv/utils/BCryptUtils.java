@@ -23,7 +23,7 @@ public class BCryptUtils {
      * @param encodedPassword
      * @return
      */
-    public Boolean doPasswordsMatch(String rawPassword,String encodedPassword) {
+    public boolean doPasswordsMatch(String rawPassword,String encodedPassword) {
         return passwordEcorder.matches(rawPassword, encodedPassword);
     }
 

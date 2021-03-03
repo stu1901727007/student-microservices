@@ -10,6 +10,7 @@ import java.util.Collection;
 @Accessors(chain = true)
 public class FrontUserDto {
 
+    private Long id;
     private String firstName;
     private String middleName;
     private String lastName;

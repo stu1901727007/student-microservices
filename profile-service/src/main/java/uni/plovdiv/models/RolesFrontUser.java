@@ -19,10 +19,10 @@ import java.util.Date;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonIgnoreProperties({"deletedAt", "createdAt", "updatedAt"})
-@SQLDelete(sql = "UPDATE roles_registered SET deleted_at=NOW() WHERE id=?")
+@SQLDelete(sql = "UPDATE roles_front_user SET deleted_at=NOW() WHERE id=?")
 @Where(clause = "deleted_at IS NULL")
 @Entity
-@Table(name = "roles_registered")
+@Table(name = "roles_front_user")
 public class RolesFrontUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -17,5 +17,5 @@ public interface FrontUsersServiceInteface {
 
     FrontUser signup(FrontUserSignupDto frontUserSignupDto);
 
-    Boolean delete(FrontUser frontUser);
+    boolean delete(FrontUser frontUser);
 }

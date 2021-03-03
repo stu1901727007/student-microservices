@@ -1,5 +1,5 @@
-#FROM openjdk:8-jdk-alpine
-FROM openjdk:13-jdk-alpine
+FROM openjdk:8-jdk-alpine
+#FROM openjdk:13-jdk-alpine
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 #ARG JAR_FILE=gateway-service/target/*.jar
