@@ -8,6 +8,7 @@ import uni.plovdiv.models.RolesFrontUser;
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
@@ -17,6 +18,8 @@ public class FrontUserDto {
 
     @Column(nullable = false)
     @Size(max = 50)
+    @NotBlank
+    @NotNull
     private String firstName;
 
     @Column(nullable = false)
@@ -25,6 +28,8 @@ public class FrontUserDto {
 
     @Column(nullable = false)
     @Size(max = 50)
+    @NotBlank
+    @NotNull
     private String lastName;
 
     @Column(name = "pin") //or pif
@@ -38,6 +43,7 @@ public class FrontUserDto {
     @Column(name = "email", nullable = false)
     @Email
     @NotBlank
+    @NotNull
     @Size(max = 50)
     private String email;
 

@@ -138,7 +138,7 @@ services:
   #Gateway service
   ss_profile:
     image: stu1901727007/uniplovdiv:profile
-    container_name: ss_profile
+    #container_name: ss_profile
     restart: always
     tty: true
 #    ports:

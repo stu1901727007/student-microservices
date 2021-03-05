@@ -18,7 +18,6 @@ public class ProfileApplication {
         SpringApplication.run(ProfileApplication.class, args);
     }
 
-
     @Bean
     CommandLineRunner init(RoleFrontUserRepository roleFrontUserRepository) {
 

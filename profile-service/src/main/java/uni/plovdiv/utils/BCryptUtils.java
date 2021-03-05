@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BCryptUtils {
 
-    private static BCryptPasswordEncoder passwordEcorder = new BCryptPasswordEncoder(12);
+    private static final BCryptPasswordEncoder passwordEcorder = new BCryptPasswordEncoder(12);
 
     /**
      *
